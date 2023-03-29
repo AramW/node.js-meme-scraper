@@ -1,9 +1,22 @@
 import fs from 'node:fs';
-import client from 'node:https';
 import path, { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import cheerio from 'cheerio';
 import cliProgress from 'cli-progress';
+import colors from 'colors';
 import fetch from 'node-fetch';
+
+// Create progress bar
+const progressBar = new cliProgress.SingleBar(
+  {
+    format: 'Progress |' + colors.cyan('{bar}') + '| {percentage}% ',
+    stopOnComplete: true,
+    hideCursor: true,
+    clearOnComplete: false,
+    stream: process.stdout,
+  },
+  cliProgress.Presets.shades_classic,
+);
 
 // Create "memes" folder if it doesn't exist yet.
 const currentDir = dirname(fileURLToPath(import.meta.url));
@@ -36,5 +49,3 @@ progressBar.start(100, 0, {
 });
 
 progressBar.update(100);
-
-console.log('10 images succesfully saved in /memes folder!');
